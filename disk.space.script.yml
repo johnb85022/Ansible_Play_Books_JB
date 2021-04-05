@@ -1,0 +1,32 @@
+---
+- name: Disk space check
+  hosts: all
+  gather_facts: false
+  tasks:
+         - name: Copy file to usr local bin
+           become: yes
+           become_user: root
+           copy:
+                src: /home/svcansible/scripts/disk-space-check.sh
+                dest: /usr/local/bin/disk-space-check.sh
+                owner: root
+                group: root
+                mode: u=rx,g=rx,o=rx
+                backup: yes
+
+         - name: Run df on the host for display
+           command: df -h
+           register: result
+         - debug:
+             var: result.stdout_lines
+
+         - name: Disk Space Check
+           become: yes
+           become_user: root
+           shell: /usr/local/bin/disk-space-check.sh
+           register: result
+           changed_when: false
+           failed_when: result.rc == 1
+         - debug:
+             var: result.stdout_lines
+...
