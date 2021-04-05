@@ -1,0 +1,14 @@
+---
+- name: loopy one
+  hosts: syslog002
+  vars:
+    check_services:
+      - sshd
+      - syslog-ng
+  tasks:
+    - name: service check
+      service:
+         name: "{{ item }}"
+         state: started
+      loop: "{{ check_services }}"
+...
