@@ -1,0 +1,17 @@
+---
+- name: apt vs yum
+  hosts: syslog002 dnshosteast001
+  tasks:
+    - name: apt work
+      apt:
+        name: "*"
+        state: latest
+      when: ansible_facts.pkg_mgr == "apt"
+
+    - name: yum work
+      yum:
+        name: "*"
+        state: latest
+      when: ansible_facts.pkg_mgr == "yum"
+
+...
