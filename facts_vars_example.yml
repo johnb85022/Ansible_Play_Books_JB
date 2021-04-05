@@ -1,0 +1,19 @@
+---
+- name: Fact dump
+  hosts: syslog002
+  tasks:
+
+    - name: Pint size facts
+      debug:
+        msg:
+         with_items:
+           - "{{ ansible_facts.fqdn }}"
+           - "{{ ansible_facts.nodename }}"
+           - "{{ ansible_facts.default_ipv4.address }}"
+           - "{{ ansible_facts.pkg_mgr}}"
+      debug:
+        msg: "{{ ansible_facts.fqdn }} {{ ansible_facts.nodename }} {{ ansible_facts.default_ipv4.address }
+} {{ ansible_facts.pkg_mgr}}"
+
+
+...
