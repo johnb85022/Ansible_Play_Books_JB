@@ -23,4 +23,5 @@
            failed_when: result.rc == 1
          - debug:
              var: result.stdout_lines
+             
 ...
