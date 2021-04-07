@@ -1,0 +1,26 @@
+---
+- name: PI and Dns Check
+  hosts: pihole
+  gather_facts: false
+  tasks:
+         - name: Copy file to usr local bin
+           become: yes
+           become_user: root
+           copy:
+                src: /home/svcansible/scripts/pihole-status-check.sh
+                dest: /usr/local/bin/pihole-status-check.sh
+                owner: root
+                group: root
+                mode: u=rx,g=rx,o=rx
+                backup: yes
+
+         - name: DNS and Status Check
+           become: yes
+           become_user: root
+           shell: /usr/local/bin/pihole-status-check.sh
+           register: result
+           changed_when: false
+           failed_when: result.rc == 1
+         - debug:
+             var: result.stdout_lines
+...
